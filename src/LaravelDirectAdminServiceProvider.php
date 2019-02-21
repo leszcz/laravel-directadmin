@@ -20,7 +20,8 @@ class LaravelDirectAdminServiceProvider extends ServiceProvider
     {
         $this->app->singleton(LaravelDirectAdmin::class, function () {
             $api = new DAConnection();
-            $api->connect(config('laravel-directadmin.domain'), config('laravel-directadmin.port'));
+            $host = (config('laravel-directadmin.ssl') ? "ssl://".config('laravel-directadmin.domain') : config('laravel-directadmin.domain'));
+            $api->connect($host, config('laravel-directadmin.port'));
             $api->set_login(config('laravel-directadmin.username'), config('laravel-directadmin.password'));
             return new LaravelDirectAdmin($api);
         });
